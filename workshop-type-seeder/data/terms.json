@@ -1,0 +1,122 @@
+[
+    {
+        "name": "Scrum Master",
+        "slug": "scrum-master",
+        "description": "Workshops focused on Scrum Master certification and facilitation skills.",
+        "images": {
+            "featured_image": {
+                "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+                "filename": "scrum-master-featured.jpg",
+                "title": "Scrum Master Workshop",
+                "alt": "A team collaborating during a Scrum ceremony"
+            },
+            "workshop_badge": {
+                "url": "https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=300&h=300&fit=crop&auto=format",
+                "filename": "scrum-master-badge.jpg",
+                "title": "Scrum Master Badge",
+                "alt": "Scrum Master certification badge"
+            }
+        },
+        "acf": {
+            "workshop_description": "<p>The <strong>Scrum Master</strong> workshop prepares participants to facilitate Scrum ceremonies, shield the development team from external interruptions, remove impediments, and coach both team members and the wider organisation in agile principles. Delegates leave with the knowledge and confidence to drive sprint success and continuous improvement.</p>",
+            "workshop_tagline": "Master the Art of Agile Facilitation",
+            "abbreviation": "SM"
+        }
+    },
+    {
+        "name": "Product Owner",
+        "slug": "product-owner",
+        "description": "Workshops for Product Owner certification and backlog management.",
+        "images": {
+            "featured_image": {
+                "url": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&h=675&fit=crop&auto=format",
+                "filename": "product-owner-featured.jpg",
+                "title": "Product Owner Workshop",
+                "alt": "A product owner reviewing a backlog on a whiteboard"
+            },
+            "workshop_badge": {
+                "url": "https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=300&h=300&fit=crop&auto=format",
+                "filename": "product-owner-badge.jpg",
+                "title": "Product Owner Badge",
+                "alt": "Product Owner certification badge"
+            }
+        },
+        "acf": {
+            "workshop_description": "<p>The <strong>Product Owner</strong> workshop equips participants with the skills to manage product backlogs, articulate a compelling product vision, write actionable user stories, and continuously maximise the value delivered to stakeholders. Participants learn prioritisation techniques, stakeholder communication, and how to make data-driven decisions.</p>",
+            "workshop_tagline": "Define Value, Drive Delivery",
+            "abbreviation": "PO"
+        }
+    },
+    {
+        "name": "Agile Coach",
+        "slug": "agile-coach",
+        "description": "Advanced coaching workshops for experienced agile practitioners.",
+        "images": {
+            "featured_image": {
+                "url": "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200&h=675&fit=crop&auto=format",
+                "filename": "agile-coach-featured.jpg",
+                "title": "Agile Coach Workshop",
+                "alt": "An agile coach working with a team"
+            },
+            "workshop_badge": {
+                "url": "https://images.unsplash.com/photo-1569038786784-2a9ca1a2f7c5?w=300&h=300&fit=crop&auto=format",
+                "filename": "agile-coach-badge.jpg",
+                "title": "Agile Coach Badge",
+                "alt": "Agile Coach certification badge"
+            }
+        },
+        "acf": {
+            "workshop_description": "<p>The <strong>Agile Coach</strong> workshop develops enterprise-level coaching skills, enabling practitioners to guide organisations through agile transformations, build high-performing teams, and embed a culture of continuous improvement. Advanced topics include systemic coaching, scaling frameworks, and organisational change management.</p>",
+            "workshop_tagline": "Coach Teams, Transform Organisations",
+            "abbreviation": "AC"
+        }
+    },
+    {
+        "name": "Kanban Practitioner",
+        "slug": "kanban-practitioner",
+        "description": "Workshops on Kanban methodology and flow-based delivery.",
+        "images": {
+            "featured_image": {
+                "url": "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1200&h=675&fit=crop&auto=format",
+                "filename": "kanban-practitioner-featured.jpg",
+                "title": "Kanban Practitioner Workshop",
+                "alt": "A Kanban board with workflow cards"
+            },
+            "workshop_badge": {
+                "url": "https://images.unsplash.com/photo-1540655037529-dec987208707?w=300&h=300&fit=crop&auto=format",
+                "filename": "kanban-practitioner-badge.jpg",
+                "title": "Kanban Practitioner Badge",
+                "alt": "Kanban Practitioner certification badge"
+            }
+        },
+        "acf": {
+            "workshop_description": "<p>The <strong>Kanban Practitioner</strong> workshop teaches participants to design, implement and continuously improve Kanban systems for sustainable flow, reduced cycle times, and predictable delivery. Topics include WIP limits, service classes, flow metrics, and using data to drive improvement decisions.</p>",
+            "workshop_tagline": "Visualise Work, Optimise Flow",
+            "abbreviation": "KMP"
+        }
+    },
+    {
+        "name": "DevOps Engineer",
+        "slug": "devops-engineer",
+        "description": "Workshops covering DevOps practices, CI/CD pipelines, and team collaboration.",
+        "images": {
+            "featured_image": {
+                "url": "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=1200&h=675&fit=crop&auto=format",
+                "filename": "devops-engineer-featured.jpg",
+                "title": "DevOps Engineer Workshop",
+                "alt": "Developers collaborating over a CI/CD pipeline dashboard"
+            },
+            "workshop_badge": {
+                "url": "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=300&h=300&fit=crop&auto=format",
+                "filename": "devops-engineer-badge.jpg",
+                "title": "DevOps Engineer Badge",
+                "alt": "DevOps Engineer certification badge"
+            }
+        },
+        "acf": {
+            "workshop_description": "<p>The <strong>DevOps Engineer</strong> workshop bridges the gap between development and operations, covering automation, infrastructure-as-code, continuous integration, and delivery pipelines to accelerate safe software releases. Participants gain hands-on experience with modern DevOps toolchains and cultural practices that enable high-frequency deployments.</p>",
+            "workshop_tagline": "Build, Deploy, Deliver — Faster",
+            "abbreviation": "DOE"
+        }
+    }
+]
