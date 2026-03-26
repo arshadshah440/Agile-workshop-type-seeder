@@ -5,7 +5,8 @@
  * Version:      1.1.0
  * Requires at least: 5.8
  * Requires PHP: 7.4
- * Author:       Developer
+ * Author:       Arshad Shah
+ * Author URI:   https://arshadwebstudio.com
  * License:      GPL-2.0+
  *
  * Taxonomy targeted : workshop-type  (registered by The Events Calendar or equivalent)
