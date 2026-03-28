@@ -1,0 +1,132 @@
+[
+  {
+    "name": "Scrum Master",
+    "slug": "scrum-master",
+    "description": "The Scrum Master is a servant-leader for the Scrum Team, responsible for promoting and supporting Scrum by helping everyone understand Scrum theory, practices, rules, and values.",
+    "images": {
+      "featured_image": {
+        "id": 599,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "scrum-master-featured.jpg",
+        "title": "Scrum Master",
+        "alt": "Scrum Master Workshop"
+      },
+      "workshop_badge": {
+        "id": 599,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "scrum-master-badge.jpg",
+        "title": "Scrum Master Badge",
+        "alt": "Scrum Master Certification Badge"
+      }
+    },
+    "acf": {
+      "workshop_description": "<p>The Scrum Master workshop provides hands-on training in Scrum principles, helping participants master facilitation, coaching, and servant leadership to drive high-performing agile teams.</p>",
+      "workshop_tagline": "Lead teams with clarity and purpose",
+      "abbreviation": "SM"
+    }
+  },
+  {
+    "name": "Product Owner",
+    "slug": "product-owner",
+    "description": "The Product Owner is responsible for maximizing the value of the product resulting from the work of the Development Team, managing and prioritizing the Product Backlog.",
+    "images": {
+      "featured_image": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "product-owner-featured.jpg",
+        "title": "Product Owner",
+        "alt": "Product Owner Workshop"
+      },
+      "workshop_badge": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "product-owner-badge.jpg",
+        "title": "Product Owner Badge",
+        "alt": "Product Owner Certification Badge"
+      }
+    },
+    "acf": {
+      "workshop_description": "<p>The Product Owner workshop equips participants with the skills to define product vision, manage backlogs, and make value-driven decisions that align business goals with customer needs.</p>",
+      "workshop_tagline": "Shape the product, deliver the value",
+      "abbreviation": "PO"
+    }
+  },
+  {
+    "name": "Agile Coach",
+    "slug": "agile-coach",
+    "description": "The Agile Coach guides organizations through agile transformation, mentoring teams and leaders on agile mindset, practices, and culture to drive continuous improvement.",
+    "images": {
+      "featured_image": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "agile-coach-featured.jpg",
+        "title": "Agile Coach",
+        "alt": "Agile Coach Workshop"
+      },
+      "workshop_badge": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "agile-coach-badge.jpg",
+        "title": "Agile Coach Badge",
+        "alt": "Agile Coach Certification Badge"
+      }
+    },
+    "acf": {
+      "workshop_description": "<p>The Agile Coach workshop builds advanced coaching and facilitation skills, enabling participants to guide teams and organizations through sustainable agile adoption at scale.</p>",
+      "workshop_tagline": "Transform teams, enable growth",
+      "abbreviation": "AC"
+    }
+  },
+  {
+    "name": "Kanban Practitioner",
+    "slug": "kanban-practitioner",
+    "description": "The Kanban Practitioner applies Kanban principles to visualize workflow, limit work in progress, and continuously improve delivery processes across teams and organizations.",
+    "images": {
+      "featured_image": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "kanban-practitioner-featured.jpg",
+        "title": "Kanban Practitioner",
+        "alt": "Kanban Practitioner Workshop"
+      },
+      "workshop_badge": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "kanban-practitioner-badge.jpg",
+        "title": "Kanban Practitioner Badge",
+        "alt": "Kanban Practitioner Certification Badge"
+      }
+    },
+    "acf": {
+      "workshop_description": "<p>The Kanban Practitioner workshop teaches participants how to design and improve Kanban systems, measure flow metrics, and build a culture of continuous improvement through visual management.</p>",
+      "workshop_tagline": "Visualize work, optimize flow",
+      "abbreviation": "KMP"
+    }
+  },
+  {
+    "name": "DevOps Engineer",
+    "slug": "devops-engineer",
+    "description": "The DevOps Engineer bridges development and operations, implementing continuous integration, delivery pipelines, and automation practices to accelerate software delivery and improve reliability.",
+    "images": {
+      "featured_image": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "devops-engineer-featured.jpg",
+        "title": "DevOps Engineer",
+        "alt": "DevOps Engineer Workshop"
+      },
+      "workshop_badge": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "devops-engineer-badge.jpg",
+        "title": "DevOps Engineer Badge",
+        "alt": "DevOps Engineer Certification Badge"
+      }
+    },
+    "acf": {
+      "workshop_description": "<p>The DevOps Engineer workshop covers CI/CD pipelines, infrastructure as code, containerisation, and DevOps culture — equipping engineers to ship faster and more reliably in modern cloud environments.</p>",
+      "workshop_tagline": "Build, deploy, and operate at scale",
+      "abbreviation": "DOE"
+    }
+  }
+]

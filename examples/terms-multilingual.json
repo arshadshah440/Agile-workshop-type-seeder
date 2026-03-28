@@ -1,0 +1,242 @@
+[
+  {
+    "name": "Scrum Master",
+    "slug": "scrum-master",
+    "description": "The Scrum Master is a servant-leader for the Scrum Team, responsible for promoting and supporting Scrum by helping everyone understand Scrum theory, practices, rules, and values.",
+    "images": {
+      "featured_image": {
+        "id": 599,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "scrum-master-featured.jpg",
+        "title": "Scrum Master",
+        "alt": "Scrum Master Workshop"
+      },
+      "workshop_badge": {
+        "id": 599,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "scrum-master-badge.jpg",
+        "title": "Scrum Master Badge",
+        "alt": "Scrum Master Certification Badge"
+      }
+    },
+    "acf": {
+      "workshop_description": "<p>The Scrum Master workshop provides hands-on training in Scrum principles, helping participants master facilitation, coaching, and servant leadership to drive high-performing agile teams.</p>",
+      "workshop_tagline": "Lead teams with clarity and purpose",
+      "abbreviation": "SM"
+    },
+    "translations": {
+      "de": {
+        "name": "Scrum Master",
+        "slug": "scrum-master-de",
+        "description": "Der Scrum Master ist ein dienender Anführer für das Scrum-Team und verantwortlich für die Förderung und Unterstützung von Scrum.",
+        "acf": {
+          "workshop_description": "<p>Der Scrum Master Workshop bietet praxisnahe Schulungen in Scrum-Prinzipien und hilft den Teilnehmern, Moderation, Coaching und dienende Führung zu meistern.</p>",
+          "workshop_tagline": "Teams mit Klarheit und Ziel führen",
+          "abbreviation": "SM"
+        }
+      },
+      "fr": {
+        "name": "Scrum Master",
+        "slug": "scrum-master-fr",
+        "description": "Le Scrum Master est un leader serviteur pour l'équipe Scrum, responsable de la promotion et du soutien de Scrum.",
+        "acf": {
+          "workshop_description": "<p>L'atelier Scrum Master offre une formation pratique sur les principes Scrum, aidant les participants à maîtriser la facilitation, le coaching et le leadership serviteur.</p>",
+          "workshop_tagline": "Diriger des équipes avec clarté et objectif",
+          "abbreviation": "SM"
+        }
+      }
+    }
+  },
+  {
+    "name": "Product Owner",
+    "slug": "product-owner",
+    "description": "The Product Owner is responsible for maximizing the value of the product resulting from the work of the Development Team, managing and prioritizing the Product Backlog.",
+    "images": {
+      "featured_image": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "product-owner-featured.jpg",
+        "title": "Product Owner",
+        "alt": "Product Owner Workshop"
+      },
+      "workshop_badge": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "product-owner-badge.jpg",
+        "title": "Product Owner Badge",
+        "alt": "Product Owner Certification Badge"
+      }
+    },
+    "acf": {
+      "workshop_description": "<p>The Product Owner workshop equips participants with the skills to define product vision, manage backlogs, and make value-driven decisions that align business goals with customer needs.</p>",
+      "workshop_tagline": "Shape the product, deliver the value",
+      "abbreviation": "PO"
+    },
+    "translations": {
+      "de": {
+        "name": "Product Owner",
+        "slug": "product-owner-de",
+        "description": "Der Product Owner ist verantwortlich für die Maximierung des Produktwerts durch Verwaltung und Priorisierung des Product Backlogs.",
+        "acf": {
+          "workshop_description": "<p>Der Product Owner Workshop vermittelt Teilnehmern die Fähigkeiten zur Definition der Produktvision, Verwaltung von Backlogs und wertorientierten Entscheidungen.</p>",
+          "workshop_tagline": "Das Produkt gestalten, den Wert liefern",
+          "abbreviation": "PO"
+        }
+      },
+      "fr": {
+        "name": "Product Owner",
+        "slug": "product-owner-fr",
+        "description": "Le Product Owner est responsable de maximiser la valeur du produit en gérant et priorisant le Product Backlog.",
+        "acf": {
+          "workshop_description": "<p>L'atelier Product Owner dote les participants des compétences nécessaires pour définir la vision produit, gérer les backlogs et prendre des décisions axées sur la valeur.</p>",
+          "workshop_tagline": "Façonner le produit, délivrer la valeur",
+          "abbreviation": "PO"
+        }
+      }
+    }
+  },
+  {
+    "name": "Agile Coach",
+    "slug": "agile-coach",
+    "description": "The Agile Coach guides organizations through agile transformation, mentoring teams and leaders on agile mindset, practices, and culture to drive continuous improvement.",
+    "images": {
+      "featured_image": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "agile-coach-featured.jpg",
+        "title": "Agile Coach",
+        "alt": "Agile Coach Workshop"
+      },
+      "workshop_badge": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "agile-coach-badge.jpg",
+        "title": "Agile Coach Badge",
+        "alt": "Agile Coach Certification Badge"
+      }
+    },
+    "acf": {
+      "workshop_description": "<p>The Agile Coach workshop builds advanced coaching and facilitation skills, enabling participants to guide teams and organizations through sustainable agile adoption at scale.</p>",
+      "workshop_tagline": "Transform teams, enable growth",
+      "abbreviation": "AC"
+    },
+    "translations": {
+      "de": {
+        "name": "Agile Coach",
+        "slug": "agile-coach-de",
+        "description": "Der Agile Coach begleitet Organisationen durch die agile Transformation und mentort Teams und Führungskräfte in agilen Denkweisen und Praktiken.",
+        "acf": {
+          "workshop_description": "<p>Der Agile Coach Workshop entwickelt fortgeschrittene Coaching- und Moderationsfähigkeiten, um Teams und Organisationen durch eine nachhaltige agile Einführung zu führen.</p>",
+          "workshop_tagline": "Teams transformieren, Wachstum ermöglichen",
+          "abbreviation": "AC"
+        }
+      },
+      "fr": {
+        "name": "Coach Agile",
+        "slug": "coach-agile-fr",
+        "description": "Le Coach Agile guide les organisations dans leur transformation agile, en encadrant les équipes et les leaders sur l'état d'esprit et les pratiques agiles.",
+        "acf": {
+          "workshop_description": "<p>L'atelier Coach Agile développe des compétences avancées en coaching et facilitation, permettant aux participants de guider équipes et organisations vers une adoption agile durable.</p>",
+          "workshop_tagline": "Transformer les équipes, favoriser la croissance",
+          "abbreviation": "AC"
+        }
+      }
+    }
+  },
+  {
+    "name": "Kanban Practitioner",
+    "slug": "kanban-practitioner",
+    "description": "The Kanban Practitioner applies Kanban principles to visualize workflow, limit work in progress, and continuously improve delivery processes across teams and organizations.",
+    "images": {
+      "featured_image": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "kanban-practitioner-featured.jpg",
+        "title": "Kanban Practitioner",
+        "alt": "Kanban Practitioner Workshop"
+      },
+      "workshop_badge": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "kanban-practitioner-badge.jpg",
+        "title": "Kanban Practitioner Badge",
+        "alt": "Kanban Practitioner Certification Badge"
+      }
+    },
+    "acf": {
+      "workshop_description": "<p>The Kanban Practitioner workshop teaches participants how to design and improve Kanban systems, measure flow metrics, and build a culture of continuous improvement through visual management.</p>",
+      "workshop_tagline": "Visualize work, optimize flow",
+      "abbreviation": "KMP"
+    },
+    "translations": {
+      "de": {
+        "name": "Kanban Praktiker",
+        "slug": "kanban-praktiker-de",
+        "description": "Der Kanban Praktiker wendet Kanban-Prinzipien an, um den Arbeitsfluss zu visualisieren, laufende Arbeiten zu begrenzen und Lieferprozesse kontinuierlich zu verbessern.",
+        "acf": {
+          "workshop_description": "<p>Der Kanban Praktiker Workshop lehrt die Gestaltung und Verbesserung von Kanban-Systemen, die Messung von Flow-Metriken und den Aufbau einer Kultur der kontinuierlichen Verbesserung.</p>",
+          "workshop_tagline": "Arbeit visualisieren, Fluss optimieren",
+          "abbreviation": "KMP"
+        }
+      },
+      "fr": {
+        "name": "Praticien Kanban",
+        "slug": "praticien-kanban-fr",
+        "description": "Le Praticien Kanban applique les principes Kanban pour visualiser les flux de travail, limiter les travaux en cours et améliorer continuellement les processus de livraison.",
+        "acf": {
+          "workshop_description": "<p>L'atelier Praticien Kanban enseigne aux participants comment concevoir et améliorer les systèmes Kanban, mesurer les métriques de flux et bâtir une culture d'amélioration continue.</p>",
+          "workshop_tagline": "Visualiser le travail, optimiser le flux",
+          "abbreviation": "KMP"
+        }
+      }
+    }
+  },
+  {
+    "name": "DevOps Engineer",
+    "slug": "devops-engineer",
+    "description": "The DevOps Engineer bridges development and operations, implementing continuous integration, delivery pipelines, and automation practices to accelerate software delivery and improve reliability.",
+    "images": {
+      "featured_image": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "devops-engineer-featured.jpg",
+        "title": "DevOps Engineer",
+        "alt": "DevOps Engineer Workshop"
+      },
+      "workshop_badge": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+        "filename": "devops-engineer-badge.jpg",
+        "title": "DevOps Engineer Badge",
+        "alt": "DevOps Engineer Certification Badge"
+      }
+    },
+    "acf": {
+      "workshop_description": "<p>The DevOps Engineer workshop covers CI/CD pipelines, infrastructure as code, containerisation, and DevOps culture — equipping engineers to ship faster and more reliably in modern cloud environments.</p>",
+      "workshop_tagline": "Build, deploy, and operate at scale",
+      "abbreviation": "DOE"
+    },
+    "translations": {
+      "de": {
+        "name": "DevOps Ingenieur",
+        "slug": "devops-ingenieur-de",
+        "description": "Der DevOps Ingenieur verbindet Entwicklung und Betrieb durch Implementierung von Continuous Integration, Delivery Pipelines und Automatisierungspraktiken.",
+        "acf": {
+          "workshop_description": "<p>Der DevOps Ingenieur Workshop behandelt CI/CD-Pipelines, Infrastructure as Code, Containerisierung und DevOps-Kultur — für schnellere und zuverlässigere Softwarelieferung.</p>",
+          "workshop_tagline": "Bauen, deployen und im großen Maßstab betreiben",
+          "abbreviation": "DOE"
+        }
+      },
+      "fr": {
+        "name": "Ingénieur DevOps",
+        "slug": "ingenieur-devops-fr",
+        "description": "L'Ingénieur DevOps fait le lien entre développement et opérations, en mettant en œuvre l'intégration continue, les pipelines de livraison et les pratiques d'automatisation.",
+        "acf": {
+          "workshop_description": "<p>L'atelier Ingénieur DevOps couvre les pipelines CI/CD, l'infrastructure en tant que code, la conteneurisation et la culture DevOps — pour livrer plus rapidement et de manière fiable.</p>",
+          "workshop_tagline": "Construire, déployer et opérer à grande échelle",
+          "abbreviation": "DOE"
+        }
+      }
+    }
+  }
+]

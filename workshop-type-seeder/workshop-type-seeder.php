@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:  Workshop Type Seeder
- * Description:  Adds a dashboard menu page with a button that seeds 5 Workshop Type taxonomy terms — including all default and ACF custom fields — via the WordPress REST API. Term data (including image URLs) is loaded from data/terms.json; images are sideloaded into the media library via the /wp/v2/media REST endpoint before being attached to each term.
- * Version:      1.1.0
+ * Description:  Adds a dashboard menu page where you upload a JSON file of Workshop Type terms. Each term is validated (name + slug required) then seeded — images are sideloaded into the media library and ACF custom fields are populated. Missing optional fields are reported per-term in the import log.
+ * Version:      1.4.0
  * Requires at least: 5.8
  * Requires PHP: 7.4
  * Author:       Arshad Shah
@@ -11,13 +11,13 @@
  *
  * Taxonomy targeted : workshop-type  (registered by The Events Calendar or equivalent)
  * ACF field group   : group_695645e713735  (attached to workshop-type terms)
- * Data file         : data/terms.json
  *
  * REST flow (per term)
  * --------------------
- * Browser JS  →  POST /wp-json/wts/v1/seed-workshop-types
- *                  └─ For each term in terms.json:
- *                       1. download_url( image_url ) → temp file
+ * Browser JS  →  POST /wp-json/wts/v1/seed-workshop-types  { terms: [...] }
+ *                  └─ For each term in the uploaded JSON:
+ *                       1. If image_def has a valid "id" → reuse existing attachment
+ *                          Else: download_url( image_url ) → temp file
  *                          POST /wp/v2/media  (via rest_do_request)  → attachment ID
  *                       2. POST /wp/v2/workshop-type (via rest_do_request) → term ID
  *                       3. update_field( acf_key, value, 'workshop-type_{term_id}' )
@@ -38,9 +38,6 @@ add_action( 'plugins_loaded', static function () {
 // ---------------------------------------------------------------------------
 
 final class WTS_Workshop_Type_Seeder {
-
-    /** Absolute path to the JSON data file. */
-    private const DATA_FILE = __DIR__ . '/data/terms.json';
 
     /**
      * ACF field key → JSON property name mapping.
@@ -97,8 +94,7 @@ final class WTS_Workshop_Type_Seeder {
 
         $taxonomy_exists = taxonomy_exists( 'workshop-type' );
         $acf_active      = function_exists( 'update_field' );
-        $data_file_ok    = file_exists( self::DATA_FILE );
-        $term_count      = count( $this->load_terms_json() );
+        $wpml_active     = $this->is_wpml_active();
         ?>
         <div class="wrap" id="wts-admin-page">
             <h1 class="wp-heading-inline"><?php esc_html_e( 'Workshop Type Seeder', 'wts' ); ?></h1>
@@ -113,52 +109,59 @@ final class WTS_Workshop_Type_Seeder {
                 </div>
             <?php endif; ?>
 
-            <?php if ( ! $data_file_ok ) : ?>
-                <div class="notice notice-error">
-                    <p>
-                        <strong><?php esc_html_e( 'Data file missing:', 'wts' ); ?></strong>
-                        <?php echo esc_html( sprintf( __( 'Could not find %s.', 'wts' ), self::DATA_FILE ) ); ?>
-                    </p>
-                </div>
-            <?php endif; ?>
-
             <?php if ( ! $acf_active ) : ?>
                 <div class="notice notice-warning">
                     <p>
                         <strong><?php esc_html_e( 'ACF not active:', 'wts' ); ?></strong>
-                        <?php esc_html_e( 'Advanced Custom Fields is not active. Terms and images will still be created, but ACF fields (description, tagline, certification body, abbreviation) will NOT be populated.', 'wts' ); ?>
+                        <?php esc_html_e( 'Advanced Custom Fields is not active. Terms and images will still be created, but ACF fields will NOT be populated.', 'wts' ); ?>
+                    </p>
+                </div>
+            <?php endif; ?>
+
+            <?php if ( $wpml_active ) : ?>
+                <div class="notice notice-info">
+                    <p>
+                        <strong><?php esc_html_e( 'WPML detected:', 'wts' ); ?></strong>
+                        <?php esc_html_e( 'Primary terms will be created in the default language. Add a "translations" object to any term in your JSON to seed additional language versions at the same time.', 'wts' ); ?>
+                    </p>
+                </div>
+            <?php else : ?>
+                <div class="notice notice-info" style="display:none" id="wts-wpml-hint">
+                    <p>
+                        <strong><?php esc_html_e( 'Multilingual support:', 'wts' ); ?></strong>
+                        <?php esc_html_e( 'Install and activate WPML to seed translations directly from your JSON file.', 'wts' ); ?>
                     </p>
                 </div>
             <?php endif; ?>
 
             <div style="background:#fff;border-left:4px solid #72aee6;padding:12px 18px;margin:20px 0;max-width:760px;">
-                <p>
-                    <?php
-                    echo esc_html( sprintf(
-                        __( 'Reads %d terms from %s. For each term:', 'wts' ),
-                        $term_count,
-                        'data/terms.json'
-                    ) );
-                    ?>
-                </p>
-                <ol style="margin:6px 0 6px 18px;padding:0;">
-                    <li><?php esc_html_e( 'Downloads featured_image and workshop_badge from their URLs and uploads them to the Media Library via POST /wp/v2/media.', 'wts' ); ?></li>
-                    <li><?php esc_html_e( 'Creates the taxonomy term via POST /wp/v2/workshop-type.', 'wts' ); ?></li>
-                    <li><?php esc_html_e( 'Populates all ACF fields (using the uploaded attachment IDs for image fields).', 'wts' ); ?></li>
-                </ol>
-                <p style="margin:0;font-size:12px;color:#666;">
-                    <?php esc_html_e( 'Data file: ', 'wts' ); ?>
-                    <code><?php echo esc_html( self::DATA_FILE ); ?></code>
-                </p>
+                <p><?php esc_html_e( 'Upload a JSON file containing workshop type terms. Each term must include name and slug. Optional fields (description, images, ACF data) will be imported if present — any missing fields are noted per-term in the import log.', 'wts' ); ?></p>
+                <?php if ( $wpml_active ) : ?>
+                    <p style="margin:4px 0 0;font-size:12px;color:#666;"><?php esc_html_e( 'WPML: add a "translations" key to any term with language-keyed objects (e.g. "fr", "de") to create linked translations. Each translation requires at minimum a "name" field.', 'wts' ); ?></p>
+                <?php endif; ?>
+                <p style="margin:4px 0 0;font-size:12px;color:#666;"><?php esc_html_e( 'Expected format: a JSON array of term objects. Each entry needs at minimum a "name" and "slug" key.', 'wts' ); ?></p>
             </div>
 
-            <button
-                id="wts-seed-button"
-                class="button button-primary button-hero"
-                <?php disabled( ! $taxonomy_exists || ! $data_file_ok ); ?>
-            >
-                <?php echo esc_html( sprintf( __( 'Seed %d Workshop Type Terms', 'wts' ), $term_count ) ); ?>
-            </button>
+            <div style="background:#fff;padding:18px 20px;border:1px solid #ccd0d4;border-radius:3px;max-width:520px;margin-bottom:20px;">
+                <label for="wts-json-file" style="display:block;font-weight:600;margin-bottom:8px;">
+                    <?php esc_html_e( 'Select terms JSON file', 'wts' ); ?>
+                </label>
+                <input
+                    type="file"
+                    id="wts-json-file"
+                    accept=".json,application/json"
+                    style="display:block;margin-bottom:12px;"
+                    <?php disabled( ! $taxonomy_exists ); ?>
+                />
+                <div id="wts-file-validation" style="margin-bottom:12px;"></div>
+                <button
+                    id="wts-seed-button"
+                    class="button button-primary button-hero"
+                    disabled="disabled"
+                >
+                    <?php esc_html_e( 'Import & Seed Terms', 'wts' ); ?>
+                </button>
+            </div>
 
             <div id="wts-status" style="margin-top:24px;max-width:800px;"></div>
         </div>
@@ -178,18 +181,27 @@ final class WTS_Workshop_Type_Seeder {
             'wts-admin',
             plugin_dir_url( __FILE__ ) . 'assets/js/admin.js',
             [],
-            '1.1.0',
+            '1.4.0',
             true
         );
 
         wp_localize_script( 'wts-admin', 'wtsData', [
-            'restBase' => esc_url_raw( rest_url( 'wts/v1/' ) ),
-            'nonce'    => wp_create_nonce( 'wp_rest' ),
-            'i18n'     => [
-                'confirm' => __( 'This will upload images to your Media Library and create Workshop Type terms. Existing terms with the same slug will cause an error. Continue?', 'wts' ),
-                'seeding' => __( 'Uploading images and seeding terms via REST API — this may take a moment…', 'wts' ),
-                'done'    => __( 'Seeding complete!', 'wts' ),
-                'errPfx'  => __( 'Error:', 'wts' ),
+            'restBase'   => esc_url_raw( rest_url( 'wts/v1/' ) ),
+            'nonce'      => wp_create_nonce( 'wp_rest' ),
+            'wpmlActive' => $this->is_wpml_active(),
+            'i18n'       => [
+                'confirm'              => __( 'This will upload images to your Media Library and create Workshop Type terms. Existing terms with the same slug will cause an error. Continue?', 'wts' ),
+                'seeding'              => __( 'Uploading images and seeding terms — this may take a moment…', 'wts' ),
+                'done'                 => __( 'Seeding complete!', 'wts' ),
+                'errPfx'               => __( 'Error:', 'wts' ),
+                'invalidJson'          => __( 'Could not parse JSON:', 'wts' ),
+                'notArray'             => __( 'JSON must be a top-level array of term objects.', 'wts' ),
+                'noTerms'              => __( 'The JSON file contains no terms.', 'wts' ),
+                'validFailed'          => __( 'Validation failed — fix the errors below before importing:', 'wts' ),
+                'missingOptional'      => __( 'Optional fields missing (will be skipped):', 'wts' ),
+                'readyToImport'        => __( 'term(s) ready to import.', 'wts' ),
+                'wpmlTransNoName'      => __( 'translation is missing required field: name', 'wts' ),
+                'wpmlMissingOptional'  => __( 'Translations with missing optional fields:', 'wts' ),
             ],
         ] );
     }
@@ -219,11 +231,13 @@ final class WTS_Workshop_Type_Seeder {
     /**
      * POST /wp-json/wts/v1/seed-workshop-types
      *
-     * For each entry in data/terms.json:
-     *   1. Uploads featured_image URL  → POST /wp/v2/media  → attachment ID
-     *   2. Uploads workshop_badge URL  → POST /wp/v2/media  → attachment ID
-     *   3. Creates taxonomy term       → POST /wp/v2/workshop-type → term ID
+     * Accepts a JSON body with a "terms" array. For each term:
+     *   1. Validates name + slug (and translation names when WPML is active)
+     *   2. Uploads featured_image / workshop_badge → POST /wp/v2/media → attachment ID
+     *   3. Creates taxonomy term → POST /wp/v2/workshop-type → term ID
      *   4. Sets all ACF fields via update_field()
+     *   5. (WPML) Registers primary term language and creates linked translation terms
+     *   6. Reports any missing optional fields in the per-term log
      *
      * @param WP_REST_Request $request
      * @return WP_REST_Response|WP_Error
@@ -238,23 +252,94 @@ final class WTS_Workshop_Type_Seeder {
             );
         }
 
-        $terms_data = $this->load_terms_json();
+        $terms_data = $request->get_param( 'terms' );
 
-        if ( empty( $terms_data ) ) {
+        if ( empty( $terms_data ) || ! is_array( $terms_data ) ) {
             return new WP_Error(
                 'wts_no_data',
-                __( 'No term data found in data/terms.json.', 'wts' ),
-                [ 'status' => 500 ]
+                __( 'No term data provided. Send a "terms" array in the request body.', 'wts' ),
+                [ 'status' => 400 ]
             );
         }
 
+        // WPML context — resolved once so translation validation and processing
+        // are both skipped entirely when WPML is not installed.
+        $wpml_active  = $this->is_wpml_active();
+        $default_lang = $wpml_active ? $this->get_default_language() : '';
+
+        // -----------------------------------------------------------------------
+        // Server-side validation: name + slug required for every primary term.
+        // When WPML is active, each translation entry must also have a name.
+        // -----------------------------------------------------------------------
+        $validation_errors = [];
+        foreach ( $terms_data as $i => $term ) {
+            $term_label = ! empty( $term['name'] )
+                ? sanitize_text_field( $term['name'] )
+                : sprintf( __( 'Term #%d', 'wts' ), $i + 1 );
+
+            $missing = [];
+            if ( empty( $term['name'] ) ) $missing[] = 'name';
+            if ( empty( $term['slug'] ) ) $missing[] = 'slug';
+
+            if ( ! empty( $missing ) ) {
+                $validation_errors[] = [
+                    'index'   => $i,
+                    'term'    => $term_label,
+                    'message' => sprintf(
+                        __( 'Missing required field(s): %s', 'wts' ),
+                        implode( ', ', $missing )
+                    ),
+                ];
+            }
+
+            if ( $wpml_active && ! empty( $term['translations'] ) && is_array( $term['translations'] ) ) {
+                foreach ( $term['translations'] as $lang_code => $translation ) {
+                    if ( empty( $translation['name'] ) ) {
+                        $validation_errors[] = [
+                            'index'   => $i,
+                            'term'    => $term_label,
+                            'message' => sprintf(
+                                __( 'Translation "%s" is missing the required "name" field.', 'wts' ),
+                                sanitize_key( $lang_code )
+                            ),
+                        ];
+                    }
+                }
+            }
+        }
+
+        if ( ! empty( $validation_errors ) ) {
+            return new WP_Error(
+                'wts_validation_failed',
+                __( 'One or more terms failed validation.', 'wts' ),
+                [ 'status' => 400, 'errors' => $validation_errors ]
+            );
+        }
+
+        // -----------------------------------------------------------------------
+        // Process each term
+        // -----------------------------------------------------------------------
         $acf_active    = function_exists( 'update_field' );
         $cert_body_ids = $this->resolve_certification_body_ids();
         $created       = [];
         $errors        = [];
 
+        // Ensure primary terms are created in the default language
+        if ( $wpml_active ) {
+            do_action( 'wpml_switch_language', $default_lang );
+        }
+
         foreach ( $terms_data as $term_data ) {
-            $name = $term_data['name'] ?? 'Unknown';
+            $name = sanitize_text_field( $term_data['name'] ?? '' );
+
+            // Detect missing optional fields for the import log
+            $missing_fields = [];
+            if ( empty( $term_data['description'] ) )                 $missing_fields[] = 'description';
+            if ( empty( $term_data['images']['featured_image'] ) )    $missing_fields[] = 'images.featured_image';
+            if ( empty( $term_data['images']['workshop_badge'] ) )    $missing_fields[] = 'images.workshop_badge';
+            if ( empty( $term_data['acf']['workshop_description'] ) ) $missing_fields[] = 'acf.workshop_description';
+            if ( empty( $term_data['acf']['workshop_tagline'] ) )     $missing_fields[] = 'acf.workshop_tagline';
+            if ( empty( $term_data['acf']['abbreviation'] ) )         $missing_fields[] = 'acf.abbreviation';
 
             // ------------------------------------------------------------------
             // Step 1 — Upload images via POST /wp/v2/media
@@ -264,22 +349,36 @@ final class WTS_Workshop_Type_Seeder {
             $image_log         = [];
 
             if ( ! empty( $term_data['images']['featured_image'] ) ) {
-                $result = $this->upload_image_via_media_api( $term_data['images']['featured_image'] );
-                if ( is_wp_error( $result ) ) {
-                    $image_log['featured_image'] = [ 'uploaded' => false, 'error' => $result->get_error_message() ];
+                $img_def  = $term_data['images']['featured_image'];
+                $existing = $this->maybe_use_existing_image( $img_def );
+                if ( $existing ) {
+                    $featured_image_id = $existing;
+                    $image_log['featured_image'] = [ 'uploaded' => false, 'reused' => true, 'attachment_id' => $existing ];
                 } else {
-                    $featured_image_id = $result;
-                    $image_log['featured_image'] = [ 'uploaded' => true, 'attachment_id' => $result ];
+                    $result = $this->upload_image_via_media_api( $img_def );
+                    if ( is_wp_error( $result ) ) {
+                        $image_log['featured_image'] = [ 'uploaded' => false, 'reused' => false, 'error' => $result->get_error_message() ];
+                    } else {
+                        $featured_image_id = $result;
+                        $image_log['featured_image'] = [ 'uploaded' => true, 'reused' => false, 'attachment_id' => $result ];
+                    }
                 }
             }
 
             if ( ! empty( $term_data['images']['workshop_badge'] ) ) {
-                $result = $this->upload_image_via_media_api( $term_data['images']['workshop_badge'] );
-                if ( is_wp_error( $result ) ) {
-                    $image_log['workshop_badge'] = [ 'uploaded' => false, 'error' => $result->get_error_message() ];
+                $img_def  = $term_data['images']['workshop_badge'];
+                $existing = $this->maybe_use_existing_image( $img_def );
+                if ( $existing ) {
+                    $workshop_badge_id = $existing;
+                    $image_log['workshop_badge'] = [ 'uploaded' => false, 'reused' => true, 'attachment_id' => $existing ];
                 } else {
-                    $workshop_badge_id = $result;
-                    $image_log['workshop_badge'] = [ 'uploaded' => true, 'attachment_id' => $result ];
+                    $result = $this->upload_image_via_media_api( $img_def );
+                    if ( is_wp_error( $result ) ) {
+                        $image_log['workshop_badge'] = [ 'uploaded' => false, 'reused' => false, 'error' => $result->get_error_message() ];
+                    } else {
+                        $workshop_badge_id = $result;
+                        $image_log['workshop_badge'] = [ 'uploaded' => true, 'reused' => false, 'attachment_id' => $result ];
+                    }
                 }
             }
 
@@ -300,8 +399,8 @@ final class WTS_Workshop_Type_Seeder {
                 continue;
             }
 
-            $term_id   = (int)    $term_result['id'];
-            $term_link = (string) $term_result['link'];
+            $term_id      = (int)    $term_result['id'];
+            $term_link    = (string) $term_result['link'];
             $acf_selector = 'workshop-type_' . $term_id;
 
             // ------------------------------------------------------------------
@@ -311,7 +410,6 @@ final class WTS_Workshop_Type_Seeder {
 
             if ( $acf_active ) {
 
-                // Image fields — pass the attachment ID directly
                 $acf_log[ self::FIELD_FEATURED_IMAGE ] = $this->set_acf_field(
                     self::FIELD_FEATURED_IMAGE,
                     $featured_image_id,
@@ -324,36 +422,65 @@ final class WTS_Workshop_Type_Seeder {
                     $acf_selector
                 );
 
-                // Relationship field — certification body post IDs
                 $acf_log[ self::FIELD_CERT_BODY ] = $this->set_acf_field(
                     self::FIELD_CERT_BODY,
                     $cert_body_ids,
                     $acf_selector
                 );
 
-                // Text / wysiwyg fields — read directly from JSON acf block
                 foreach ( self::ACF_TEXT_FIELDS as $field_key => $json_key ) {
                     $value = $term_data['acf'][ $json_key ] ?? '';
                     $acf_log[ $field_key ] = $this->set_acf_field( $field_key, $value, $acf_selector );
                 }
             }
 
+            // ------------------------------------------------------------------
+            // Step 4 — WPML: register primary term language + process translations
+            // ------------------------------------------------------------------
+            $trid             = 0;
+            $translations_log = [];
+
+            if ( $wpml_active ) {
+                $trid = $this->set_wpml_term_language( $term_id, $default_lang, null, $default_lang );
+
+                if ( ! empty( $term_data['translations'] ) && is_array( $term_data['translations'] ) ) {
+                    foreach ( $term_data['translations'] as $lang_code => $trans_data ) {
+                        if ( empty( $trans_data['name'] ) ) continue;
+                        $translations_log[ sanitize_key( $lang_code ) ] = $this->process_term_translation(
+                            $trans_data,
+                            sanitize_key( $lang_code ),
+                            $trid,
+                            $default_lang,
+                            $acf_active,
+                            $cert_body_ids,
+                            $featured_image_id,
+                            $workshop_badge_id
+                        );
+                    }
+                }
+            }
+
             $created[] = [
-                'id'         => $term_id,
-                'name'       => $term_data['name'],
-                'slug'       => $term_data['slug'],
-                'link'       => $term_link,
-                'images'     => $image_log,
-                'acf_active' => $acf_active,
-                'acf_fields' => $acf_log,
+                'id'             => $term_id,
+                'name'           => $term_data['name'],
+                'slug'           => $term_data['slug'],
+                'link'           => $term_link,
+                'images'         => $image_log,
+                'missing_fields' => $missing_fields,
+                'acf_active'     => $acf_active,
+                'acf_fields'     => $acf_log,
+                'wpml_active'    => $wpml_active,
+                'trid'           => $trid ?: null,
+                'translations'   => $translations_log,
             ];
         }
 
         return rest_ensure_response( [
-            'success'    => empty( $errors ),
-            'acf_active' => $acf_active,
-            'created'    => $created,
-            'errors'     => $errors,
+            'success'     => empty( $errors ),
+            'acf_active'  => $acf_active,
+            'wpml_active' => $wpml_active,
+            'created'     => $created,
+            'errors'      => $errors,
         ] );
     }
 
@@ -365,13 +492,38 @@ final class WTS_Workshop_Type_Seeder {
         return rest_ensure_response( [
             'taxonomy_exists'    => taxonomy_exists( 'workshop-type' ),
             'acf_active'         => function_exists( 'update_field' ),
-            'data_file_exists'   => file_exists( self::DATA_FILE ),
-            'term_count_in_json' => count( $this->load_terms_json() ),
+            'wpml_active'        => $this->is_wpml_active(),
             'existing_term_count' => wp_count_terms( [
                 'taxonomy'   => 'workshop-type',
                 'hide_empty' => false,
             ] ),
         ] );
+    }
+
+    // -----------------------------------------------------------------------
+    // Image resolution — reuse existing attachment or upload a new one
+    // -----------------------------------------------------------------------
+
+    /**
+     * If the image definition includes a valid WordPress attachment ID,
+     * returns it so the download + upload step can be skipped entirely.
+     *
+     * Callers should check for a non-zero return value and, if found,
+     * mark the image log entry as reused rather than uploaded.
+     *
+     * @param array $image_def  Image definition from the JSON (may contain an "id" key).
+     * @return int  Existing attachment ID if valid, 0 otherwise.
+     */
+    private function maybe_use_existing_image( array $image_def ): int {
+        $id = isset( $image_def['id'] ) ? (int) $image_def['id'] : 0;
+        if ( $id <= 0 ) {
+            return 0;
+        }
+        $post = get_post( $id );
+        if ( ! $post || $post->post_type !== 'attachment' ) {
+            return 0;
+        }
+        return $id;
     }
 
     // -----------------------------------------------------------------------
@@ -565,27 +717,202 @@ final class WTS_Workshop_Type_Seeder {
     }
 
     // -----------------------------------------------------------------------
-    // Data helpers
+    // WPML helpers
     // -----------------------------------------------------------------------
 
     /**
-     * Loads and decodes data/terms.json.
-     * Returns an empty array on any failure so callers do not need to null-check.
-     *
-     * @return array<int, array>
+     * Returns true when the WPML plugin is active.
+     * ICL_SITEPRESS_VERSION is defined by WPML on plugins_loaded.
      */
-    private function load_terms_json(): array {
-        if ( ! file_exists( self::DATA_FILE ) ) {
-            return [];
+    private function is_wpml_active(): bool {
+        return defined( 'ICL_SITEPRESS_VERSION' );
+    }
+
+    /**
+     * Returns the WPML default language code (e.g. "en").
+     */
+    private function get_default_language(): string {
+        return (string) apply_filters( 'wpml_default_language', '' );
+    }
+
+    /**
+     * Registers a workshop-type term with WPML by firing
+     * wpml_set_element_language_details with the term's term_taxonomy_id.
+     *
+     * Pass $trid = null to create a new translation group (primary term).
+     * Pass an existing $trid to link a translated term into that group.
+     * Returns the trid so callers can chain translations off the primary term.
+     *
+     * @param int      $term_id     WordPress term ID
+     * @param string   $lang_code   WPML language code, e.g. "fr"
+     * @param int|null $trid        Existing translation group ID, or null for primary
+     * @param string   $source_lang Default language code (source for translations)
+     * @return int  The trid (translation group ID)
+     */
+    private function set_wpml_term_language( int $term_id, string $lang_code, ?int $trid, string $source_lang ): int {
+        $term_obj = get_term( $term_id, 'workshop-type' );
+
+        if ( is_wp_error( $term_obj ) || ! $term_obj ) {
+            return 0;
         }
 
-        $raw = file_get_contents( self::DATA_FILE );
-        if ( $raw === false ) {
-            return [];
+        $ttid = (int) $term_obj->term_taxonomy_id;
+
+        do_action( 'wpml_set_element_language_details', [
+            'element_id'           => $ttid,
+            'element_type'         => 'tax_workshop-type',
+            'trid'                 => $trid ?: false,
+            'language_code'        => $lang_code,
+            'source_language_code' => $trid ? $source_lang : null,
+        ] );
+
+        // After registering a new primary term, retrieve the trid WPML assigned
+        if ( ! $trid ) {
+            $trid = (int) apply_filters( 'wpml_element_trid', null, $ttid, 'tax_workshop-type' );
         }
 
-        $decoded = json_decode( $raw, true );
-        return is_array( $decoded ) ? $decoded : [];
+        return $trid;
+    }
+
+    /**
+     * Creates one translated term and links it to the primary term's translation
+     * group via WPML. Switches language context before creation and restores it
+     * to $default_lang afterwards.
+     *
+     * Images and ACF text fields are optional — only populated when present in
+     * $trans_data, so minimal translation entries (name only) are fully supported.
+     *
+     * @param array  $trans_data    Single translation object from the JSON "translations" key
+     * @param string $lang_code     Language code, e.g. "fr"
+     * @param int    $trid          Translation group ID obtained from the primary term
+     * @param string $default_lang  Default language code to restore after processing
+     * @param bool   $acf_active    Whether ACF's update_field() is available
+     * @param int[]  $cert_body_ids Certification body post IDs for the relationship field
+     * @return array  Per-translation log entry included in the REST response
+     */
+    private function process_term_translation(
+        array  $trans_data,
+        string $lang_code,
+        int    $trid,
+        string $default_lang,
+        bool   $acf_active,
+        array  $cert_body_ids,
+        int    $fallback_featured_image_id = 0,
+        int    $fallback_workshop_badge_id = 0
+    ): array {
+        do_action( 'wpml_switch_language', $lang_code );
+
+        $log = [
+            'lang'       => $lang_code,
+            'name'       => sanitize_text_field( $trans_data['name'] ),
+            'slug'       => '',
+            'id'         => 0,
+            'link'       => '',
+            'images'     => [],
+            'acf_fields' => [],
+            'error'      => null,
+        ];
+
+        // Optional image uploads for this translation
+        $featured_image_id = 0;
+        $workshop_badge_id = 0;
+
+        if ( ! empty( $trans_data['images']['featured_image'] ) ) {
+            $img_def  = $trans_data['images']['featured_image'];
+            $existing = $this->maybe_use_existing_image( $img_def );
+            if ( $existing ) {
+                $featured_image_id = $existing;
+                $log['images']['featured_image'] = [ 'uploaded' => false, 'reused' => true, 'attachment_id' => $existing ];
+            } else {
+                $result = $this->upload_image_via_media_api( $img_def );
+                if ( is_wp_error( $result ) ) {
+                    $log['images']['featured_image'] = [ 'uploaded' => false, 'reused' => false, 'error' => $result->get_error_message() ];
+                } else {
+                    $featured_image_id = $result;
+                    $log['images']['featured_image'] = [ 'uploaded' => true, 'reused' => false, 'attachment_id' => $result ];
+                }
+            }
+        } elseif ( $fallback_featured_image_id ) {
+            // No image in translation JSON — reuse the primary term's attachment
+            $featured_image_id = $fallback_featured_image_id;
+            $log['images']['featured_image'] = [ 'uploaded' => false, 'reused' => true, 'attachment_id' => $fallback_featured_image_id ];
+        }
+
+        if ( ! empty( $trans_data['images']['workshop_badge'] ) ) {
+            $img_def  = $trans_data['images']['workshop_badge'];
+            $existing = $this->maybe_use_existing_image( $img_def );
+            if ( $existing ) {
+                $workshop_badge_id = $existing;
+                $log['images']['workshop_badge'] = [ 'uploaded' => false, 'reused' => true, 'attachment_id' => $existing ];
+            } else {
+                $result = $this->upload_image_via_media_api( $img_def );
+                if ( is_wp_error( $result ) ) {
+                    $log['images']['workshop_badge'] = [ 'uploaded' => false, 'reused' => false, 'error' => $result->get_error_message() ];
+                } else {
+                    $workshop_badge_id = $result;
+                    $log['images']['workshop_badge'] = [ 'uploaded' => true, 'reused' => false, 'attachment_id' => $result ];
+                }
+            }
+        } elseif ( $fallback_workshop_badge_id ) {
+            // No badge in translation JSON — reuse the primary term's attachment
+            $workshop_badge_id = $fallback_workshop_badge_id;
+            $log['images']['workshop_badge'] = [ 'uploaded' => false, 'reused' => true, 'attachment_id' => $fallback_workshop_badge_id ];
+        }
+
+        // Auto-generate slug if not provided (appends lang code to avoid conflicts)
+        $slug = ! empty( $trans_data['slug'] )
+            ? $trans_data['slug']
+            : sanitize_title( $trans_data['name'] ) . '-' . $lang_code;
+
+        $term_result = $this->create_term_via_rest_api(
+            $trans_data['name'],
+            $slug,
+            $trans_data['description'] ?? ''
+        );
+
+        if ( is_wp_error( $term_result ) ) {
+            $log['error'] = $term_result->get_error_message();
+            do_action( 'wpml_switch_language', $default_lang );
+            return $log;
+        }
+
+        $trans_term_id = (int) $term_result['id'];
+        $log['id']     = $trans_term_id;
+        $log['slug']   = $slug;
+        $log['link']   = (string) $term_result['link'];
+
+        // Link to the primary term's translation group
+        $this->set_wpml_term_language( $trans_term_id, $lang_code, $trid, $default_lang );
+
+        // Populate only the ACF fields that are present in this translation entry
+        if ( $acf_active ) {
+            $acf_selector = 'workshop-type_' . $trans_term_id;
+
+            if ( $featured_image_id ) {
+                $log['acf_fields'][ self::FIELD_FEATURED_IMAGE ] = $this->set_acf_field(
+                    self::FIELD_FEATURED_IMAGE, $featured_image_id, $acf_selector
+                );
+            }
+            if ( $workshop_badge_id ) {
+                $log['acf_fields'][ self::FIELD_WORKSHOP_BADGE ] = $this->set_acf_field(
+                    self::FIELD_WORKSHOP_BADGE, $workshop_badge_id, $acf_selector
+                );
+            }
+            $log['acf_fields'][ self::FIELD_CERT_BODY ] = $this->set_acf_field(
+                self::FIELD_CERT_BODY, $cert_body_ids, $acf_selector
+            );
+            foreach ( self::ACF_TEXT_FIELDS as $field_key => $json_key ) {
+                if ( isset( $trans_data['acf'][ $json_key ] ) ) {
+                    $log['acf_fields'][ $field_key ] = $this->set_acf_field(
+                        $field_key, $trans_data['acf'][ $json_key ], $acf_selector
+                    );
+                }
+            }
+        }
+
+        do_action( 'wpml_switch_language', $default_lang );
+
+        return $log;
     }
 
     /**
