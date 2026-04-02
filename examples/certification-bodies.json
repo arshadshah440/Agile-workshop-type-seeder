@@ -1,0 +1,191 @@
+[
+  {
+    "title": "Scrum Alliance",
+    "slug": "scrum-alliance",
+    "excerpt": "Scrum Alliance is the world's leading Scrum certification body, providing training and certification for Scrum practitioners globally.",
+    "featured_image": {
+      "id": 0,
+      "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+      "filename": "scrum-alliance-featured.jpg",
+      "title": "Scrum Alliance",
+      "alt": "Scrum Alliance Certification Body"
+    },
+    "acf": {
+      "certification_body_aj_id": 1,
+      "certification_body_abbreviation": "SA",
+      "certification_body_slogan": "Changing the world of work, one team at a time.",
+      "certification_body_website_url": "https://www.scrumalliance.org",
+      "certification_body_description": "Scrum Alliance is a nonprofit professional membership organization that supports the adoption and effective use of Scrum and agile practices worldwide.",
+      "certification_body_logo": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=400&fit=crop&auto=format",
+        "filename": "scrum-alliance-logo.jpg",
+        "title": "Scrum Alliance Logo",
+        "alt": "Scrum Alliance Logo"
+      },
+      "certification_body_logo_with_text": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=300&fit=crop&auto=format",
+        "filename": "scrum-alliance-logo-text.jpg",
+        "title": "Scrum Alliance Logo with Text",
+        "alt": "Scrum Alliance Logo with Text"
+      },
+      "certification_body_logo_initials": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=200&h=200&fit=crop&auto=format",
+        "filename": "scrum-alliance-initials.jpg",
+        "title": "SA Initials",
+        "alt": "Scrum Alliance Initials"
+      },
+      "certification_body_watermark": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=600&fit=crop&auto=format",
+        "filename": "scrum-alliance-watermark.jpg",
+        "title": "Scrum Alliance Watermark",
+        "alt": "Scrum Alliance Watermark"
+      },
+      "certification_body_gallery": [
+        {
+          "id": 0,
+          "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&auto=format",
+          "filename": "scrum-alliance-gallery-1.jpg",
+          "title": "Scrum Alliance Event 1",
+          "alt": "Scrum Alliance Event"
+        },
+        {
+          "id": 0,
+          "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&auto=format",
+          "filename": "scrum-alliance-gallery-2.jpg",
+          "title": "Scrum Alliance Event 2",
+          "alt": "Scrum Alliance Training Event"
+        }
+      ]
+    }
+  },
+  {
+    "title": "Scrum.org",
+    "slug": "scrum-org",
+    "excerpt": "Scrum.org was founded by Scrum co-creator Ken Schwaber with the mission to improve the profession of software delivery.",
+    "featured_image": {
+      "id": 0,
+      "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+      "filename": "scrum-org-featured.jpg",
+      "title": "Scrum.org",
+      "alt": "Scrum.org Certification Body"
+    },
+    "acf": {
+      "certification_body_aj_id": 2,
+      "certification_body_abbreviation": "SO",
+      "certification_body_slogan": "Improving the profession of software delivery.",
+      "certification_body_website_url": "https://www.scrum.org",
+      "certification_body_description": "Scrum.org provides comprehensive training, assessments and certifications to improve the profession of software delivery. Founded by Ken Schwaber, co-creator of Scrum.",
+      "certification_body_logo": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=400&fit=crop&auto=format",
+        "filename": "scrum-org-logo.jpg",
+        "title": "Scrum.org Logo",
+        "alt": "Scrum.org Logo"
+      },
+      "certification_body_logo_with_text": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=300&fit=crop&auto=format",
+        "filename": "scrum-org-logo-text.jpg",
+        "title": "Scrum.org Logo with Text",
+        "alt": "Scrum.org Logo with Text"
+      },
+      "certification_body_logo_initials": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=200&h=200&fit=crop&auto=format",
+        "filename": "scrum-org-initials.jpg",
+        "title": "SO Initials",
+        "alt": "Scrum.org Initials"
+      },
+      "certification_body_watermark": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=600&fit=crop&auto=format",
+        "filename": "scrum-org-watermark.jpg",
+        "title": "Scrum.org Watermark",
+        "alt": "Scrum.org Watermark"
+      },
+      "certification_body_gallery": [
+        {
+          "id": 0,
+          "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&auto=format",
+          "filename": "scrum-org-gallery-1.jpg",
+          "title": "Scrum.org Assessment",
+          "alt": "Scrum.org Professional Assessment"
+        }
+      ]
+    }
+  },
+  {
+    "title": "ICAgile",
+    "slug": "icagile",
+    "excerpt": "ICAgile is a globally recognized agile certification and accreditation body, offering a comprehensive agile learning roadmap.",
+    "featured_image": {
+      "id": 0,
+      "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop&auto=format",
+      "filename": "icagile-featured.jpg",
+      "title": "ICAgile",
+      "alt": "ICAgile Certification Body"
+    },
+    "acf": {
+      "certification_body_aj_id": 3,
+      "certification_body_abbreviation": "ICA",
+      "certification_body_slogan": "Empowering agile learners worldwide.",
+      "certification_body_website_url": "https://www.icagile.com",
+      "certification_body_description": "ICAgile provides a comprehensive learning roadmap with certifications across multiple agile disciplines — from team agility to business agility and agile coaching.",
+      "certification_body_logo": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=400&fit=crop&auto=format",
+        "filename": "icagile-logo.jpg",
+        "title": "ICAgile Logo",
+        "alt": "ICAgile Logo"
+      },
+      "certification_body_logo_with_text": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=300&fit=crop&auto=format",
+        "filename": "icagile-logo-text.jpg",
+        "title": "ICAgile Logo with Text",
+        "alt": "ICAgile Logo with Text"
+      },
+      "certification_body_logo_initials": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=200&h=200&fit=crop&auto=format",
+        "filename": "icagile-initials.jpg",
+        "title": "ICA Initials",
+        "alt": "ICAgile Initials"
+      },
+      "certification_body_watermark": {
+        "id": 0,
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=600&fit=crop&auto=format",
+        "filename": "icagile-watermark.jpg",
+        "title": "ICAgile Watermark",
+        "alt": "ICAgile Watermark"
+      },
+      "certification_body_gallery": [
+        {
+          "id": 0,
+          "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&auto=format",
+          "filename": "icagile-gallery-1.jpg",
+          "title": "ICAgile Learning Path",
+          "alt": "ICAgile Agile Learning Path"
+        },
+        {
+          "id": 0,
+          "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&auto=format",
+          "filename": "icagile-gallery-2.jpg",
+          "title": "ICAgile Certification",
+          "alt": "ICAgile Certification Event"
+        },
+        {
+          "id": 0,
+          "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&auto=format",
+          "filename": "icagile-gallery-3.jpg",
+          "title": "ICAgile Workshop",
+          "alt": "ICAgile Workshop"
+        }
+      ]
+    }
+  }
+]
